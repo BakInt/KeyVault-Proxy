@@ -11,9 +11,9 @@ async function handleRequest(request) {
   try {
     const url = new URL(request.url);
 
-    // 根路径返回主页信息
+    // 根路径返回维护信息
     if (url.pathname === "/") {
-      return new Response("Under maintenance...", {
+      return new Response("Invalid access", {
         headers: { 'Content-Type': 'text/plain; charset=utf-8' }
       });
     }
@@ -94,16 +94,16 @@ function ensureProtocol(url, defaultProtocol) {
   return defaultProtocol + "//" + url;
 }
 
-function handleRedirect(response， key) {
-  const location = response。headers。get('location');
+function handleRedirect(response, key) {
+  const location = response.headers.get('location');
   if (!location) return response;
   
   try {
-    const absoluteUrl = new URL(location, response。url);
+    const absoluteUrl = new URL(location, response.url);
     const newLocation = `/${key}/${encodeURIComponent(absoluteUrl.toString())}`;
     
     const headers = new Headers(response.headers);
-    headers.set('Location'， newLocation);
+    headers.set('Location', newLocation);
     
     return new Response(response.body, {
       status: response.status,
@@ -119,7 +119,7 @@ function replaceRelativePaths(text, protocol, host, actualUrl, key) {
   const proxyPrefix = `${protocol}//${host}/${key}/`;
   
   return text
-    。替换(/(href|src|action)=["']([^"']+)["']/gi， (match， attr， url) => {
+    .replace(/(href|src|action)=["']([^"']+)["']/gi, (match, attr, url) => {
       if (!url || url.startsWith('#') || url.includes('://') || url.startsWith('javascript:')) {
         return match;
       }
@@ -135,7 +135,7 @@ function replaceRelativePaths(text, protocol, host, actualUrl, key) {
 
 function filterHeaders(headers) {
   const newHeaders = new Headers();
-  for (const [name， value] / headers.entries()) {
+  for (const [name, value] of headers.entries()) {
     if (!name.startsWith('cf-') && 
         !name.startsWith('x-forwarded-') && 
         name.toLowerCase() !== 'host') {
@@ -147,12 +147,12 @@ function filterHeaders(headers) {
 
 function setNoCacheHeaders(headers) {
   headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-  headers.set('Pragma'， 'no-cache');
+  headers.set('Pragma', 'no-cache');
   headers.set('Expires', '0');
 }
 
 function setCorsHeaders(headers) {
-  headers。set('Access-Control-Allow-Origin'， '*');
-  headers。set('Access-Control-Allow-Methods'， 'GET, POST, PUT, DELETE, OPTIONS');
+  headers.set('Access-Control-Allow-Origin', '*');
+  headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   headers.set('Access-Control-Allow-Headers', '*');
 }
