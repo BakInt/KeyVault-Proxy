@@ -23,11 +23,15 @@
 
 3. 复制[worker.js](worker.js)：将提供的反向代理脚本粘贴到 Workers 编辑器中。
 
-4. 保存并部署：保存脚本后，点击 "Deploy" 按钮，以部署您的 Workers 脚本。
+4. 在 ”设置“ 中点击 “变量和机密” 区域点击 “添加”
 
-5. 配置域名：在 Cloudflare 中，将您的域名与部署的 Workers 脚本关联。确保将流量路由到您的 Workers 脚本。
+   - 变量名为: `SECRET_KEY`
 
-6. 测试：访问您的域名或者 Cloudflare Workers URL 会看到一个输入框，您可以在其中输入要代理的目标网站的 URL，然后点击 "进入代理" 按钮进行访问。
+   - 数值: `你的访问密钥（如 my_strong_key_123!@#）`
+
+6. 保存并部署：保存脚本后，点击 "Deploy" 按钮，以部署您的 Workers 脚本。
+
+7. 配置域名：在 Cloudflare 中，将您的域名与部署的 Workers 脚本关联。确保将流量路由到您的 Workers 脚本。
 
 ## 使用方法
 
@@ -35,9 +39,9 @@
 
 1. 发出请求：只需向您的 Cloudflare Workers URL 发出请求，将请求发送到目标网站。
 
-   示例请求：`https://your-worker.com/<密钥>/<目标URL>`
+   - 示例请求：`https://your-worker.com/<密钥>/<目标URL>`
 
-   将 `your-worker-url.com` 替换为您的 Cloudflare Workers URL，`<密钥>` Cloudflare的变量密钥，`<目标URL>` 替换为您要代理的目标网站的地址。
+   - 将 `your-worker-url.com` 替换为您的 Cloudflare Workers URL，`<密钥>` Cloudflare的变量密钥，`<目标URL>` 替换为您要代理的目标网站的地址。
 
 2. 处理重定向
 
